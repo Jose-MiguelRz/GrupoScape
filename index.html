@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupo Scape - Excelencia Musical y Sonora</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #121212;
+            --primary-light: #1e1e1e;
+            --secondary: #d4af37;
+            --dark: #0a0a0a;
+            --light: #f5f5f5;
+            --accent: #b8860b;
+            --text: #e0e0e0;
+            --white: #ffffff;
+            --transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            background-color: var(--primary-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--white);
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Menú de navegación */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            height: 50px;
+            margin-right: 15px;
+        }
+        
+        .navbar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            text-decoration: none;
+        }
+        
+        .navbar-logo span {
+            color: var(--secondary);
+        }
+        
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .navbar-item {
+            margin-left: 2rem;
+        }
+        
+        .navbar-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .navbar-link:hover {
+            color: var(--secondary);
+        }
+        
+        .navbar-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: var(--transition);
+        }
+        
+        .navbar-link:hover::after {
+            width: 100%;
+        }
+        
+        .navbar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 2rem;
+            margin-top: 70px; /* Para compensar el navbar fijo */
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 3;
+            animation: fadeIn 1s ease-out;
+            text-align: center;
+        }
+        
+        .header-title {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            color: var(--white);
+        }
+        
+        .header-subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .header-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .header-note {
+            position: absolute;
+            font-size: 10rem;
+            opacity: 0.1;
+            color: var(--white);
+            z-index: 2;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .header-note:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        
+        .header-note:nth-child(2) {
+            top: 30%;
+            right: 8%;
+            animation-delay: 1s;
+        }
+        
+        .header-note:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 2s;
+        }
+        
+        /* Botones */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            color: var(--dark);
+        }
+        
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0));
+            z-index: 1;
+        }
+        
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: var(--white);
+        }
+        
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            color: var(--white);
+        }
+        
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+        
+        /* Secciones */
+        .section {
+            padding: 8rem 2rem;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 5rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title .divider {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+        
+        .section-title .subtitle {
+            font-size: 1.2rem;
+            color: var(--text);
+            max-width: 700px;
+            margin: 1rem auto 0;
+            opacity: 0.8;
+        }
+        
+        /* Servicios */
+        .services-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+        
+        .service-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .service-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+        
+        .service-img {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+        
+        .service-content {
+            padding: 2rem;
+        }
+        
+        .service-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .service-description {
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+        
+        .service-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .service-features li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .service-features li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+        
+        /* Formulario de reserva */
+        .booking-section {
+            background: linear-gradient(rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.9)), url('logo1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--white);
+        }
+        
+        .booking-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(30, 30, 30, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .booking-header {
+            background: rgba(212, 175, 55, 0.2);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .booking-header h3 {
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+        
+        .booking-header p {
+            opacity: 0.9;
+        }
+        
+        .booking-form {
+            padding: 3rem;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            background: rgba(30, 30, 30, 0.7);
+            color: var(--white);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            background: rgba(30, 30, 30, 0.9);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            border-color: var(--secondary);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .flatpickr-input {
+            background: rgba(30, 30, 30, 0.7) !important;
+            color: var(--white) !important;
+            border: 1px solid rgba(212, 175, 55, 0.3) !important;
+        }
+        
+        select.form-control {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4af37'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1.5rem center;
+            background-size: 1rem;
+        }
+        
+        select.form-control option {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 10px;
+        }
+        
+        textarea.form-control {
+            border-radius: 20px !important;
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-submit {
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        /* Galería de Eventos */
+        .events-section {
+            background-color: var(--primary-light);
+        }
+        
+        .events-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .event-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            opacity: 0;
+            transform: scale(0.9);
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .event-card.animate {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .event-card:hover {
+            transform: scale(1.03);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+        
+        .event-media-container {
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .event-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        
+        .event-card:hover .event-img {
+            transform: scale(1.1);
+        }
+        
+        .event-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            color: var(--white);
+            opacity: 0.8;
+            transition: var(--transition);
+            z-index: 2;
+        }
+        
+        .event-card:hover .play-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .event-title {
+            font-size: 1.5rem;
+            margin: 1rem;
+            color: var(--secondary);
+            text-align: center;
+        }
+        
+        /* Eventos destacados (filler más grandes) */
+        .event-featured {
+            grid-column: span 2;
+        }
+        
+        .event-featured .event-media-container {
+            height: 400px;
+        }
+        
+        /* Testimonios */
+        .testimonials-section {
+            background-color: var(--primary);
+        }
+        
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .testimonials-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            gap: 3rem;
+            padding: 2rem 0;
+        }
+        
+        .testimonial-card {
+            min-width: 350px;
+            scroll-snap-align: start;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            opacity: 0;
+            transform: translateX(50px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .testimonial-card.animate {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .testimonial-quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            position: relative;
+            color: var(--text);
+            text-align: center;
+        }
+        
+        .testimonial-quote::before,
+        .testimonial-quote::after {
+            content: '"';
+            font-size: 3rem;
+            color: var(--secondary);
+            opacity: 0.3;
+            position: absolute;
+        }
+        
+        .testimonial-quote::before {
+            top: -20px;
+            left: -15px;
+        }
+        
+        .testimonial-quote::after {
+            bottom: -40px;
+            right: -15px;
+        }
+        
+        .testimonial-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        
+        .testimonial-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Equipo */
+        .team-section {
+            background-color: var(--dark);
+        }
+        
+        .team-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .team-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .team-photo {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 15px;
+            margin: 0 auto 3rem;
+            box-shadow: var(--shadow);
+            display: block;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+        
+        .team-member {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(30px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .team-member.animate {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .team-member:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+        
+        .member-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            text-align: center;
+        }
+        
+        .member-role {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+        }
+        
+        .member-bio {
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            text-align: center;
+        }
+        
+        /* Contacto */
+        .contact-section {
+            background: linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.9)), url('logo2.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+        }
+        
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 4rem;
+        }
+        
+        .contact-info {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        
+        .contact-info.animate {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--white);
+        }
+        
+        .contact-details {
+            margin-bottom: 3rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            margin-right: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .contact-text h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            color: var(--white);
+        }
+        
+        .contact-text a {
+            color: var(--white);
+            opacity: 0.8;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .contact-text a:hover {
+            opacity: 1;
+            color: var(--secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary);
+            color: var(--dark);
+            transform: translateY(-5px);
+        }
+        
+        .contact-form {
+            background: rgba(30, 30, 30, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        
+        .contact-form.animate {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .contact-form h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+        
+        .contact-form p {
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+        }
+
+        /* Mensajes de formulario */
+        .form-message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .form-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        
+        .form-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 5rem 2rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: var(--transition);
+            opacity: 0.8;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--secondary);
+        }
+        
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-social a {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+            transition: var(--transition);
+        }
+        
+        .footer-social a:hover {
+            background: var(--secondary);
+            color: var(--dark);
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            padding-top: 2rem;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* Efectos de scroll */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .event-featured {
+                grid-column: span 1;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .header-title {
+                font-size: 3.5rem;
+            }
+            
+            .section {
+                padding: 6rem 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: var(--primary);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: var(--transition);
+                padding: 2rem;
+            }
+            
+            .navbar-menu.active {
+                left: 0;
+            }
+            
+            .navbar-item {
+                margin: 1rem 0;
+            }
+            
+            .navbar-toggle {
+                display: block;
+            }
+            
+            .header-title {
+                font-size: 2.8rem;
+            }
+            
+            .header-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-whatsapp {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+            
+            .booking-form {
+                padding: 2rem;
+            }
+            
+            .testimonials-slider {
+                padding: 1rem 0;
+            }
+            
+            .testimonial-card {
+                min-width: 280px;
+                padding: 2rem;
+            }
+            
+            .contact-form {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-title {
+                font-size: 2.2rem;
+            }
+            
+            .section {
+                padding: 4rem 1.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .service-card, .event-card {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú de navegación -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="#" class="navbar-logo">GRUPO <span>SCAPE</span></a>
+            </div>
+            <button class="navbar-toggle" id="navbar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="navbar-menu" id="navbar-menu">
+                <li class="navbar-item"><a href="#servicios" class="navbar-link">Servicios</a></li>
+                <li class="navbar-item"><a href="#eventos" class="navbar-link">Eventos</a></li>
+                <li class="navbar-item"><a href="#reservar" class="navbar-link">Reserva con nosotros</a></li>
+                <li class="navbar-item"><a href="#testimonios" class="navbar-link">Testimonios</a></li>
+                <li class="navbar-item"><a href="#equipo" class="navbar-link">Equipo</a></li>
+                <li class="navbar-item"><a href="#contacto" class="navbar-link">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1 class="header-title">Excelencia Musical y Sonora</h1>
+            <p class="header-subtitle">En Grupo Scape transformamos tus eventos en experiencias inolvidables con nuestro talento y tecnología de vanguardia</p>
+            <div class="btn-group">
+                <a href="#servicios" class="btn btn-primary">Nuestros Servicios</a>
+                <a href="#reservar" class="btn btn-whatsapp">Reserva con nosotros</a>
+            </div>
+        </div>
+        
+        <div class="header-note">
+            <i class="fas fa-music"></i>
+        </div>
+        <div class="header-note">
+            <i class="fas fa-music"></i>
+        </div>
+        <div class="header-note">
+            <i class="fas fa-music"></i>
+        </div>
+        
+        <div id="particles-js" class="header-particles"></div>
+    </header>
+    
+    <!-- Servicios -->
+    <section id="servicios" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestros Servicios</h2>
+                <div class="divider"></div>
+                <p class="subtitle">Ofrecemos soluciones completas para hacer de tu evento una experiencia sonora inigualable</p>
+            </div>
+            
+            <div class="services-container">
+                <div class="services-grid">
+                    <div class="service-card animate-on-scroll">
+                        <div class="service-img">
+                            <img src="sonido.jpg" alt="Sonido profesional">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Sonido Profesional</h3>
+                            <p class="service-description">Sistemas de audio de alta fidelidad para eventos de cualquier escala y tipo.</p>
+                            <ul class="service-features">
+                                <li>Equipos de última generación</li>
+                                <li>Configuración personalizada</li>
+                                <li>Técnicos especializados</li>
+                                <li>Cobertura para eventos grandes y pequeños</li>
+                            </ul>
+                            <a href="#reservar" class="btn btn-whatsapp">Reservar</a>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card animate-on-scroll">
+                        <div class="service-img">
+                            <img src="canto.jpg" alt="Show en vivo">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Presentaciones en Vivo</h3>
+                            <p class="service-description">Espectáculos musicales profesionales para animar tu evento.</p>
+                            <ul class="service-features">
+                                <li>Repertorio personalizado</li>
+                                <li>Artistas con experiencia escénica</li>
+                                <li>Diversos géneros musicales</li>
+                                <li>Show completo con equipo incluido</li>
+                            </ul>
+                            <a href="#reservar" class="btn btn-whatsapp">Reservar</a>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card animate-on-scroll">
+                        <div class="service-img">
+                            <img src="produccion.jpg" alt="Iluminación profesional">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Producción Integral</h3>
+                            <p class="service-description">Soluciones completas para eventos con sonido, iluminación y producción.</p>
+                            <ul class="service-features">
+                                <li>Coordinación profesional</li>
+                                <li>Equipos de alta calidad</li>
+                                <li>Sincronización perfecta</li>
+                                <li>Experiencia en diversos tipos de eventos</li>
+                            </ul>
+                            <a href="#reservar" class="btn btn-whatsapp">Reservar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Reservas -->
+    <section id="reservar" class="section booking-section">
+        <div class="container">
+            <div class="booking-container animate-on-scroll">
+                <div class="booking-header">
+                    <h3>Reserva tu Evento</h3>
+                    <p>Completa el formulario y nos pondremos en contacto para confirmar tu reserva</p>
+                </div>
+                
+                <form class="booking-form" id="event-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nombre Completo</label>
+                            <input type="text" id="name" class="form-control" placeholder="Tu nombre" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Teléfono</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="+52 231 117 1027" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-type">Tipo de Evento</label>
+                            <select id="event-type" class="form-control" required>
+                                <option value="" disabled selected>Selecciona tu evento</option>
+                                <option value="boda">Boda</option>
+                                <option value="cumpleanos">Cumpleaños</option>
+                                <option value="fiesta">Fiesta Privada</option>
+                                <option value="corporativo">Evento Corporativo</option>
+                                <option value="graduacion">Graduación</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="event-date">Fecha del Evento</label>
+                            <input type="text" id="event-date" class="form-control flatpickr-input" placeholder="Selecciona una fecha" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="guests">Número de Invitados</label>
+                            <input type="number" id="guests" class="form-control" placeholder="Aproximadamente" min="10">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Detalles Adicionales</label>
+                        <textarea id="message" class="form-control" placeholder="Cuéntanos sobre tu evento, ubicación, necesidades especiales, etc."></textarea>
+                    </div>
+                    
+                    <div class="form-submit">
+                        <button type="button" onclick="sendWhatsApp()" class="btn btn-whatsapp" style="display: block; width: 100%;">
+                            <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Eventos -->
+    <section id="eventos" class="section events-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestros Eventos</h2>
+                <div class="divider"></div>
+                <p class="subtitle">Momentos especiales que hemos tenido el honor de acompañar</p>
+            </div>
+            
+            <div class="events-container">
+                <div class="events-grid">
+                    <!-- Evento destacado - Imagen grande -->
+                    <div class="event-card event-featured animate-on-scroll">
+                        <div class="event-media-container">
+                            <img src="imagengrande.jpg" alt="Evento destacado" class="event-img">
+                        </div>
+                    </div>
+                    
+                    <!-- Evento 1 - Imagen -->
+                    <div class="event-card animate-on-scroll">
+                        <div class="event-media-container">
+                            <img src="evento1.jpg" alt="Evento 1" class="event-img">
+                        </div>
+                        <h3 class="event-title">Boda</h3>
+                    </div>
+                    
+                    <!-- Evento 2 - Video -->
+                    <div class="event-card animate-on-scroll">
+                        <div class="event-media-container">
+                            <video class="event-video" poster="evento2-poster.png" controls>
+                                <source src="video1.mp4" type="video/mp4">
+                                Tu navegador no soporta el elemento de video.
+                            </video>
+                            <div class="play-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <h3 class="event-title">Cumpleaños</h3>
+                    </div>
+                    
+                    <!-- Evento destacado - Video grande -->
+                    <div class="event-card event-featured animate-on-scroll">
+                        <div class="event-media-container">
+                            <video class="event-video" poster="evento-destacado2-poster.png" controls>
+                                <source src="video4.mp4" type="video/mp4">
+                                Tu navegador no soporta el elemento de video.
+                            </video>
+                            <div class="play-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Evento 3 - Imagen -->
+                    <div class="event-card animate-on-scroll">
+                        <div class="event-media-container">
+                            <img src="evento2.jpg" alt="Evento 3" class="event-img">
+                        </div>
+                        <h3 class="event-title">Concierto Privado</h3>
+                    </div>
+                    
+                    <!-- Evento 4 - Video -->
+                    <div class="event-card animate-on-scroll">
+                        <div class="event-media-container">
+                            <video class="event-video" poster="evento4-poster.png" controls>
+                                <source src="video2.mp4" type="video/mp4">
+                                Tu navegador no soporta el elemento de video.
+                            </video>
+                            <div class="play-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <h3 class="event-title">Graduación universitaria</h3>
+                    </div>
+                    
+                    <!-- Evento 5 - Imagen -->
+                    <div class="event-card animate-on-scroll">
+                        <div class="event-media-container">
+                            <img src="evento3.jpg" alt="Evento 5" class="event-img">
+                        </div>
+                        <h3 class="event-title">Graduación de primaria</h3>
+                    </div>
+                    
+                    <!-- Evento 6 - Video -->
+                    <div class="event-card animate-on-scroll">
+                        <div class="event-media-container">
+                            <video class="event-video" poster="evento6-poster.png" controls>
+                                <source src="video3.mp4" type="video/mp4">
+                                Tu navegador no soporta el elemento de video.
+                            </video>
+                            <div class="play-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <h3 class="event-title">Nuestros cantantes compartiendo escenario</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonios -->
+    <section id="testimonios" class="section testimonials-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Lo que dicen nuestros clientes</h2>
+                <div class="divider"></div>
+                <p class="subtitle">Experiencias reales de quienes han confiado en nosotros</p>
+            </div>
+            
+            <div class="testimonials-container">
+                <div class="testimonials-slider">
+                    <div class="testimonial-card animate-on-scroll">
+                        <p class="testimonial-quote">Grupo Scape hizo que mi boda fuera perfecta. El sonido era impecable en cada rincón del salón. Todos mis invitados quedaron impresionados con la voz de los cantantes.</p>
+                        <div class="testimonial-image">
+                            <img src="op1.jpg" alt="Testimonio 1">
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card animate-on-scroll">
+                        <p class="testimonial-quote">Contratamos a Grupo Scape para nuestro evento y superó todas nuestras expectativas. El equipo fue extremadamente profesional y el sistema de sonido hizo que la musica se escuchara perfectamente.</p>
+                        <div class="testimonial-image">
+                            <img src="op2.jpg" alt="Testimonio 2">
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card animate-on-scroll">
+                        <p class="testimonial-quote"> La iluminación, las bocinas y el ambiente que crearon para mi fiesta era increíble y la música mantuvo a todos bailando toda la noche. ¡Los recomiendo al 100!</p>
+                        <div class="testimonial-image">
+                            <img src="op3.jpg" alt="Testimonio 3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Equipo -->
+    <section id="equipo" class="section team-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestro Equipo</h2>
+                <div class="divider"></div>
+                <p class="subtitle">Profesionales apasionados por crear experiencias sonoras excepcionales</p>
+            </div>
+            
+            <div class="team-container">
+                <div class="team-header">
+                    <!-- Imagen grupal del equipo -->
+                    <img src="equipo.jpg" alt="Equipo Grupo Scape" class="team-photo animate-on-scroll">
+                </div>
+                
+                <div class="team-grid">
+                    <div class="team-member animate-on-scroll">
+                        <div class="member-info">
+                            <h3>William Montiel</h3>
+                            <span class="member-role">Especialista en Sonido y lider del equipo</span>
+                            <p class="member-bio">Con más de una década creando experiencias inolvidables, William se especializa en sonido profesional y producción de eventos, garantizando que todo el sonido y cada detalle estén en perfecta sintonía para hacer de tu evento algo único.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member animate-on-scroll">
+                        <div class="member-info">
+                            <h3>José Montiel</h3>
+                            <span class="member-role">Cantante Principal</span>
+                            <p class="member-bio">Con una voz versátil y carisma escénico, José es el artista principal de Grupo Scape, especializado en diversos géneros musicales.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member animate-on-scroll">
+                        <div class="member-info">
+                            <h3>Day</h3>
+                            <span class="member-role">Cantante</span>
+                            <p class="member-bio">Con años de experiencia en el escenario, Day aporta una voz potente y carisma único que elevan la energía y emoción de cada evento.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contacto -->
+    <section id="contacto" class="section contact-section">
+        <div class="container">
+            <div class="contact-container">
+                <div class="contact-info animate-on-scroll">
+                    <h3>Contáctanos</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Dirección</h4>
+                                <p>Teziutlán, Puebla</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>WhatsApp</h4>
+                                <a href="https://wa.me/522311171027" target="_blank">+52 231 117 1027</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top: 3rem;">Síguenos</h3>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/1GvupR6iJg/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form animate-on-scroll">
+                    <h3>¿Tienes preguntas o quieres dejar una reseña?</h3>
+                    <p>Envíanos un mensaje directo y te responderemos lo antes posible.</p>
+                    
+                    <!-- Mensajes de feedback -->
+                    <div id="form-message" class="form-message"></div>
+                    
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Tu nombre" id="contact-name" required minlength="3">
+                        </div>
+                        
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Tu mensaje" id="contact-message" required minlength="10"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-whatsapp" style="display: block; text-align: center; width: 100%;">
+                                <i class="fab fa-whatsapp"></i> Enviar Mensaje
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">GRUPO <span>SCAPE</span></div>
+            
+            <div class="footer-links">
+                <a href="#servicios">Servicios</a>
+                <a href="#eventos">Eventos</a>
+                <a href="#testimonios">Testimonios</a>
+                <a href="#equipo">Equipo</a>
+                <a href="#contacto">Contacto</a>
+            </div>
+            
+            <div class="footer-social">
+                <a href="https://www.facebook.com/share/1GvupR6iJg/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Grupo Scape. Todos los derechos reservados.</p>
+                <p>Teziutlán, Puebla</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Menú de navegación móvil
+        const navbarToggle = document.getElementById('navbar-toggle');
+        const navbarMenu = document.getElementById('navbar-menu');
+        
+        navbarToggle.addEventListener('click', () => {
+            navbarMenu.classList.toggle('active');
+        });
+        
+        // Cerrar menú al hacer clic en un enlace
+        const navbarLinks = document.querySelectorAll('.navbar-link');
+        navbarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navbarMenu.classList.remove('active');
+            });
+        });
+        
+        // Inicializar calendario
+        flatpickr("#event-date", {
+            locale: "es",
+            minDate: "today",
+            dateFormat: "d/m/Y",
+            disable: [
+                function(date) {
+                    return (date.getDay() === 0); // Deshabilitar domingos
+                }
+            ]
+        });
+        
+        // Animación de partículas en el header
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.3,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        // Animaciones al hacer scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if(elementPosition < screenPosition) {
+                    element.classList.add('animated');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+        
+        // Botón de WhatsApp con datos del formulario de reserva
+        function sendWhatsApp() {
+            const name = document.getElementById('name').value || 'Cliente potencial';
+            const phone = document.getElementById('phone').value || '';
+            const date = document.getElementById('event-date').value || 'fecha por definir';
+            const eventType = document.getElementById('event-type').value || 'evento';
+            const guests = document.getElementById('guests').value || 'número por confirmar';
+            const messageText = document.getElementById('message').value || 'sin detalles adicionales';
+            
+            const message = `Hola Grupo Scape, soy ${name}. Teléfono: ${phone}. Me interesa reservar sus servicios para mi ${eventType} el ${date} para aproximadamente ${guests} invitados. Detalles: ${messageText}`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/522311171027?text=${encodedMessage}`, '_blank');
+        }
+        
+        // Manejo del formulario de contacto
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contact-name').value;
+            const message = document.getElementById('contact-message').value;
+            const formMessage = document.getElementById('form-message');
+            
+            // Validación básica
+            if(name.length < 3) {
+                formMessage.textContent = "Por favor ingresa un nombre válido (mínimo 3 caracteres)";
+                formMessage.className = "form-message error";
+                return;
+            }
+            
+            if(message.length < 10) {
+                formMessage.textContent = "Por favor escribe un mensaje más detallado (mínimo 10 caracteres)";
+                formMessage.className = "form-message error";
+                return;
+            }
+            
+            // Construir mensaje para WhatsApp
+            const whatsappMessage = `Hola Grupo Scape, soy ${name}. ${message}`;
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            const whatsappUrl = `https://wa.me/522311171027?text=${encodedMessage}`;
+            
+            // Mostrar mensaje de éxito
+            formMessage.textContent = "Redirigiendo a WhatsApp...";
+            formMessage.className = "form-message success";
+            
+            // Redirigir después de 1 segundo
+            setTimeout(() => {
+                window.open(whatsappUrl, '_blank');
+                
+                // Opcional: Resetear el formulario
+                document.getElementById('contactForm').reset();
+                formMessage.textContent = "";
+                formMessage.className = "form-message";
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
