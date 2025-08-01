@@ -1483,7 +1483,7 @@
                             </div>
                             <div class="contact-text">
                                 <h4>WhatsApp</h4>
-                                <a href="https://wa.me/522311171027" target="_blank">+52 231 117 1027</a>
+                                <a href="https://wa.me/522311299957" target="_blank">+52 231 129 9957</a>
                             </div>
                         </div>
                     </div>
@@ -1716,7 +1716,7 @@
             window.open(`https://wa.me/522311299957?text=${encodedMessage}`, '_blank');
         }
         
-        // Manejo del formulario de contacto
+        // Manejo del formulario de contacto (reseñas)
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1738,12 +1738,12 @@
             }
             
             // Construir mensaje para WhatsApp
-            const whatsappMessage = `Hola Grupo Scape, soy ${name}. ${message}`;
+            const whatsappMessage = `Hola Grupo Scape, soy ${name}. Quiero dejar una reseña: ${message}`;
             const encodedMessage = encodeURIComponent(whatsappMessage);
-            const whatsappUrl = `https://wa.me/522311171027?text=${encodedMessage}`;
+            const whatsappUrl = `https://wa.me/522311299957?text=${encodedMessage}`;
             
             // Mostrar mensaje de éxito
-            formMessage.textContent = "Redirigiendo a WhatsApp...";
+            formMessage.textContent = "Redirigiendo a WhatsApp para enviar tu reseña...";
             formMessage.className = "form-message success";
             
             // Redirigir después de 1 segundo
